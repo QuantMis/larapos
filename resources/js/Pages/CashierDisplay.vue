@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import CustomLayout from '@/Layouts/CustomLayout.vue';
 import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
     <Head title="Point of Sale" />
-    <AuthenticatedLayout>
+    <CustomLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Point of Sale</h2>
+            <div class="flex justify-between">
+                <h2 class="font-semibold text-md text-gray-800 dark:text-gray-200 leading-tight">Is Member? </h2>
+
+                <h2 class="font-semibold text-md text-gray-800 dark:text-gray-200 leading-tight">{{ Date() }}</h2>
+            </div>
         </template>
 
         <div class="py-12">
@@ -17,5 +21,5 @@ import { Head } from '@inertiajs/vue3';
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </CustomLayout>
 </template>
