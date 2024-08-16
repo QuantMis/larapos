@@ -17,4 +17,8 @@ class PosController extends Controller
     public function customerDisplayIndex() {
        return "Not Implemented";
     }
+
+    public function drawerSessionIndex() {
+        return Inertia::render('Drawer/Index');
+    }
 }
