@@ -1,13 +1,35 @@
 <script setup lang="ts">
 import CustomLayout from '@/Layouts/CustomLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import Button from "primevue/button"
+import { Head, router } from '@inertiajs/vue3';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Button from 'primevue/button';
+import Tag from 'primevue/tag';
 import 'primeicons/primeicons.css'
+import Toast from 'primevue/toast';
+import { useToast } from "primevue/usetoast";
+
+defineProps({ sessions: Array })
+
+const toast = useToast();
+
+function createNewSession() {
+    router.post('/drawer-session')
+}
+
+const show = () => {
+    toast.add({ severity: 'error', summary: 'error', detail: 'There are still opened session.', life: 3000 });
+};
+
+const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
 
 </script>
 
 <template>
-    <Head title="Drawer Session"/>
+
+    <Toast />
+
+    <Head title="Drawer Session" />
     <CustomLayout>
         <template #header>
             <div class="flex justify-between">
@@ -18,12 +40,23 @@ import 'primeicons/primeicons.css'
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">Hi Cashier!</div>
-                </div>
+                <DataTable :value="sessions" tableStyle="min-width: 50rem">
+                    <template #header>
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xl font-bold">Sessions</span>
+                            <Button @click="createNewSession" label="New" icon="pi pi-plus" iconPos="right"
+                                severity="secondary" />
+                        </div>
+                    </template>
+                    <Column field="session_start" header="Session Start"></Column>
+                    <Column field="session_end" header="Session End"></Column>
+                    <Column header="Status">
+                        <template #body="slotProps">
+                            <Tag :severity="getSeverity(slotProps.data.open)" :value="slotProps.data.open"></Tag>
+                        </template>
+                    </Column>
+                </DataTable>
             </div>
         </div>
     </CustomLayout>
 </template>
-
-
