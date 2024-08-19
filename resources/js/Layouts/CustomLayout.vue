@@ -13,7 +13,12 @@ const showingNavigationDropdown = ref(false);
 const toast = useToast();
 
 watch(() => usePage().props.toast, toastMessage => {
-    toast.add({ severity: 'error', summary: 'error', detail: toastMessage, life: 3000 });
+    if(toastMessage.error) {
+        toast.add({ severity: 'error', summary: 'error', detail: toastMessage.error, life: 3000 });
+    }
+    if(toastMessage.success) {
+        toast.add({ severity: 'success', summary: 'success', detail: toastMessage.success, life: 3000 });
+    }
 }, { deep: true });
 
 </script>
