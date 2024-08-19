@@ -5,10 +5,14 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Tag from 'primevue/tag';
-import Paginator from 'primevue/paginator';
+import ConfirmPopup from 'primevue/confirmpopup';
+import { useConfirm } from "primevue/useconfirm";
 import 'primeicons/primeicons.css'
 
 defineProps({ sessions: Array })
+
+
+const confirm = useConfirm();
 
 function createNewSession() {
     router.post(route('session.index'))
@@ -22,6 +26,26 @@ function closeSession(session: any) {
     form.put(route('session.update', { session: session }))
 }
 
+const confirmClose = (event, session) => {
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Are you sure you want to close this session?',
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Proceed'
+        },
+        accept: () => {
+            closeSession(session);
+        },
+        reject: () => {
+        }
+    });
+}
 
 const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
 
@@ -40,7 +64,9 @@ const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <DataTable :value="sessions"  paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem">
+                <ConfirmPopup></ConfirmPopup>
+                <DataTable :value="sessions" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]"
+                    tableStyle="min-width: 50rem">
                     <template #header>
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <span class="text-xl font-bold">Sessions</span>
@@ -58,10 +84,14 @@ const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
                     <Column header="Action">
                         <template #body="slotProps">
                             <div class="flex gap-2">
-                                <Button v-if="slotProps.data.open == 'Open'" icon="pi pi-times" severity="danger"
-                                    rounded aria-label="Filter" size="small" @click="closeSession(slotProps.data.id)" />
-                                <Button icon="pi pi-arrow-right" severity="info" rounded aria-label="Filter"
-                                    size="small" />
+
+                                <Button icon="pi pi-database" severity="secondary" aria-label="Filter" size="small" />
+                                <Button v-if="slotProps.data.open == 'Open'" icon="pi pi-chevron-right"
+                                    severity="secondary" aria-label="Filter" size="small"
+                                    @click="closeSession(slotProps.data.id)" />
+                                <Button v-if="slotProps.data.open == 'Open'" icon="pi pi-times" severity="secondary"
+                                    aria-label="Filter" size="small" @click="confirmClose($event, slotProps.data.id)" />
+
                             </div>
                         </template>
                     </Column>
