@@ -6,28 +6,17 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Tag from 'primevue/tag';
 import 'primeicons/primeicons.css'
-import Toast from 'primevue/toast';
-import { useToast } from "primevue/usetoast";
 
 defineProps({ sessions: Array })
 
-const toast = useToast();
-
 function createNewSession() {
-    router.post('/drawer-session')
+    router.post(route('session.index'))
 }
-
-const show = () => {
-    toast.add({ severity: 'error', summary: 'error', detail: 'There are still opened session.', life: 3000 });
-};
-
 const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
 
 </script>
 
 <template>
-
-    <Toast />
 
     <Head title="Drawer Session" />
     <CustomLayout>

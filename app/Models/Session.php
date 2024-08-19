@@ -17,4 +17,9 @@ class Session extends Model
             get: fn (string $value) => $value == 1 ? "Open" : "Close",
         );
     }
+
+    static public function activeSessionExist(): bool
+    {
+        return Session::whereOpen(1)->count() > 0 ? true : false;
+    }
 }

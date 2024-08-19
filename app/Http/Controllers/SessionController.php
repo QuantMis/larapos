@@ -19,10 +19,13 @@ class SessionController extends Controller
 
     public function store()
     {
+        if(Session::activeSessionExist()) {
+            return redirect()->back()->with("toast", "There are still opened session");
+        }
+
         Session::create([
             "session_start" => Carbon::now(),
             "open" => 1
-
         ]);
         return to_route('session.index');
     }
