@@ -26,7 +26,13 @@ function closeSession(session: any) {
     form.put(route('session.update', { session: session }))
 }
 
-const confirmClose = (event, session) => {
+function openSession(session: any) {
+    window.open(`/customer-display-screen/${session}`, '_blank', 'width=800,height=600,left=0,top=0');
+    router.get(route('cashier-display-screen', { session: session }))
+}
+
+
+function confirmClose(event: any, session: any) {
     confirm.require({
         target: event.currentTarget,
         message: 'Are you sure you want to close this session?',
@@ -88,7 +94,7 @@ const getSeverity = (val: string) => val == "Open" ? "success" : "danger";
                                 <Button icon="pi pi-database" severity="secondary" aria-label="Filter" size="small" />
                                 <Button v-if="slotProps.data.open == 'Open'" icon="pi pi-chevron-right"
                                     severity="secondary" aria-label="Filter" size="small"
-                                    @click="closeSession(slotProps.data.id)" />
+                                    @click="openSession(slotProps.data.id)" />
                                 <Button v-if="slotProps.data.open == 'Open'" icon="pi pi-times" severity="secondary"
                                     aria-label="Filter" size="small" @click="confirmClose($event, slotProps.data.id)" />
 
