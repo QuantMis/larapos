@@ -8,6 +8,15 @@ class CashierScreenController extends Controller
 {
     public function index($session)
     {
-        dd($session);
+        return inertia('Cashier/Idle', [
+            'session' => $session
+        ]);
+    }
+
+    public function order($session)
+    {
+        return inertia('Cashier/Order', [
+            'session' => $session
+        ]);
     }
 }

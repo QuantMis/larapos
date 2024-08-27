@@ -28,7 +28,7 @@ function closeSession(session: any) {
 
 function openSession(session: any) {
     window.open(`/customer-display-screen/${session}`, '_blank', 'width=800,height=600,left=0,top=0');
-    router.get(route('cashier-display-screen', { session: session }))
+    router.get(route('cashier-display-screen.index', { session: session }))
 }
 
 
