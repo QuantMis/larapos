@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Items;
 use Illuminate\Http\Request;
 
 class CashierScreenController extends Controller
@@ -16,7 +17,8 @@ class CashierScreenController extends Controller
     public function order($session)
     {
         return inertia('Cashier/Order', [
-            'session' => $session
+            'session' => $session,
+            'products' => Items::all()
         ]);
     }
 }

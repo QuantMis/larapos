@@ -1,16 +1,24 @@
 <script setup lang="ts">
 
+import Carts from '@/Components/Carts.vue';
+import Product from '@/Components/Product.vue';
 import CustomLayout from '@/Layouts/CustomLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
+defineProps({ products: Array })
 
+const carts = ref<Array<object>>([]);
 
-
+function add(product:object) {
+    carts.value.push(product);
+}
 
 </script>
 
 <template>
-      <Head title="Cashier Display Screen" />
-      <CustomLayout>
+
+    <Head title="Cashier Display Screen" />
+    <CustomLayout>
         <template #header>
             <div class="flex justify-between">
                 <h2 class="font-semibold text-md text-gray-800 dark:text-gray-200 leading-tight">Order Page</h2>
@@ -19,15 +27,15 @@ import { Head } from '@inertiajs/vue3';
         </template>
 
         <div class="py-12">
-            <div class="mx-auto sm:px-6 lg:px-8 text-center">
-                <div class="flex">
-                    <div class="flex-1 overflow-auto">
-                        <!-- Content for the scrollable div -->
-                         Products here
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="">
+                    <div class="flex flex-wrap gap-4">
+                        <template v-for="product in products" :key="product.id">
+                            <Product :title="product.title" :price="product.price" @click="add(product)" />
+                        </template>
                     </div>
-                    <div class="fixed right-0 px-12">
-                        <!-- Content for the fixed div -->
-                         Summary here
+                    <div class="">
+                        <Carts :carts="carts" />
                     </div>
                 </div>
             </div>
