@@ -3,13 +3,19 @@
 import Carts from '@/Components/Carts.vue';
 import Product from '@/Components/Product.vue';
 import CustomLayout from '@/Layouts/CustomLayout.vue';
+import { ProductType } from '@/types/product';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
-defineProps({ products: Array })
+defineProps({
+  products: {
+    type: Array as () => ProductType[],
+    required: true
+  }
+});
 
-const carts = ref<Array<object>>([]);
+const carts = ref<Array<ProductType>>([]);
 
-function add(product:object) {
+function add(product:ProductType) {
     carts.value.push(product);
 }
 

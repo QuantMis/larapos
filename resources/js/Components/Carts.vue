@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ProductType } from '@/types/product';
 import Card from 'primevue/card';
 
 defineProps<{
-    carts?: Array<object>;
+    carts?: Array<ProductType>;
 }>()
 </script>
 

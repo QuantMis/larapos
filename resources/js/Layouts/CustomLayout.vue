@@ -7,12 +7,13 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { watch } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+import { ToastMessageType } from '@/types/toast-message';
 
 const showingNavigationDropdown = ref(false);
 
 const toast = useToast();
 
-watch(() => usePage().props.toast, toastMessage => {
+watch(() => usePage().props.toast as ToastMessageType, (toastMessage:ToastMessageType) => {
     if(toastMessage.error) {
         toast.add({ severity: 'error', summary: 'error', detail: toastMessage.error, life: 3000 });
     }
